@@ -1,0 +1,31 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!-- 避免控件都会顶到状态栏上 -->
+        <item name="android:fitsSystemWindows">true</item>
+        <!--toolbar小汉堡样式-->
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <!--修改Toolbar标题颜色-->
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+
+    </style>
+
+    <!--小汉堡颜色为白色-->
+    <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/white</item>
+    </style>
+
+    <!--Splash页面的样式-->
+    <style name="MySplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+</resources>
