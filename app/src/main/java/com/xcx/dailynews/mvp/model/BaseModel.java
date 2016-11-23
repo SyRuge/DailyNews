@@ -35,27 +35,14 @@ public abstract class BaseModel {
 
     public abstract void unSubscribe();
 
-    protected abstract void getDataFromModel(String type, final String channelId,int loadType,final int pageNum);
+    protected abstract void getDataFromModel(String type, String channelId, int loadType, int
+            pageNum);
 
-    protected abstract void getDataFromserver(String type, final String channelId);
 
-    protected abstract void getDataFromserver(String type, final String channelId, int pageNum);
-
-    public void getData(String type, String channelId) {
-        getDataFromserver(type, channelId);
-    }
-
-    public void getData(String type, final String channelId,int loadType,final int pageNum){
+    public void getData(String type, String channelId, int loadType, int pageNum) {
         getDataFromModel(type, channelId, loadType, pageNum);
     }
 
-    public void getMoreData(String type, final String channelId) {
-
-    }
-
-    public void getPastData(String type, String channelId, int pageNum) {
-
-    }
 
     protected void initDataBase() {
 

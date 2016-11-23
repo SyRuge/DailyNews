@@ -32,11 +32,6 @@ public class PhotoModel extends BaseModel {
 
     @Override
     protected void getDataFromModel(String type, String channelId, int loadType, int pageNum) {
-
-    }
-
-    @Override
-    protected void getDataFromserver(String type, String channelId) {
         NewsService newsService = mRetrofit.create(NewsService.class);
         newsService.getPhotoService(ApiConstants.PHOTO_URL + Integer.valueOf(type) + "/" +
                 Integer.valueOf(channelId))
@@ -44,13 +39,9 @@ public class PhotoModel extends BaseModel {
                 .observeOn(Schedulers.io())
                 .map(new PhotoResultFun1())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<PhotoBean>(4));
+                .subscribe(new MySubscriber<PhotoBean>(loadType));
     }
 
-    @Override
-    protected void getDataFromserver(String type, String channelId, int pageNum) {
-
-    }
 
     class PhotoResultFun1 implements Func1<String, List<PhotoBean>> {
 

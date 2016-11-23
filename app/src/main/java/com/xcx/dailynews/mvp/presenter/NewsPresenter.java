@@ -24,13 +24,6 @@ public class NewsPresenter extends BaseNewsPresenter<BaseDataBean> {
         mModel.getData(type, channelId, loadType, pageNum);
 
     }
-    public void getMoreData(String type, String channelId){
-        mModel.getMoreData(type, channelId);
-    }
-
-    public void getPastData(String type,  String channelId,int pageNum){
-        mModel.getPastData(type,channelId,pageNum);
-    }
 
     @Override
     public void detachView(String channelId) {

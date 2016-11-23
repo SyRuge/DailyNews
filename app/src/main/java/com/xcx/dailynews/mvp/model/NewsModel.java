@@ -2,14 +2,12 @@ package com.xcx.dailynews.mvp.model;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xcx.dailynews.ApiConstants;
 import com.xcx.dailynews.bean.BaseDataBean;
-import com.xcx.dailynews.data.CacheLoader;
 import com.xcx.dailynews.data.helper.MyOpenHelper;
 import com.xcx.dailynews.net.NewsService;
 
@@ -61,7 +59,7 @@ public class NewsModel extends BaseModel {
                 pageNum, channelId, BaseDataBean.class);
 
         NewsService newsService = mRetrofit.create(NewsService.class);
-        Observable<List<BaseDataBean>> pastNetCache = newsService.getPastNewsService(type,
+        Observable<List<BaseDataBean>> networkCache = newsService.getPastNewsService(type,
                 channelId, pageNum * 20 + "")
                 .subscribeOn(Schedulers.io())
                 .doOnNext(new Action1<String>() {
@@ -70,7 +68,6 @@ public class NewsModel extends BaseModel {
                         Schedulers.io().createWorker().schedule(new Action0() {
                             @Override
                             public void call() {
-                                Log.e("TAG", "doOnNext: "+s );
                                 //非阻塞IO线程
                                 //1存入内存
                                 mCacheLoader.mMemoryCache.put(channelId + "_" + pageNum, s);
@@ -82,7 +79,7 @@ public class NewsModel extends BaseModel {
                 .observeOn(Schedulers.io())
                 .map(new ResultFun1());
 
-       mSubscribe=Observable.concat(memoryCache, diskCache, pastNetCache)
+       mSubscribe=Observable.concat(memoryCache, diskCache, networkCache)
                 .first(new CacheFun1())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -90,148 +87,6 @@ public class NewsModel extends BaseModel {
 
     }
 
-    @Override
-    protected void getDataFromserver(String type, final String channelId) {
-
-        this.mType = type;
-        this.mChannelId = channelId;
-
-
-        Observable<List<BaseDataBean>> memoryCache = mCacheLoader.mMemoryCache.get(channelId,
-                BaseDataBean.class);
-        Observable<List<BaseDataBean>> diskCache = mCacheLoader.mDiskCache.get(channelId,
-                BaseDataBean.class);
-
-        NewsService newsService = mRetrofit.create(NewsService.class);
-        Observable<List<BaseDataBean>> networkCache = newsService.getNewsService(type, channelId)
-                .subscribeOn(Schedulers.io())
-                .doOnNext(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
-
-                        mCacheLoader.mMemoryCache.put(channelId, s);
-                        mCacheLoader.mDiskCache.put(channelId, s);
-                    }
-                })
-                .observeOn(Schedulers.io())
-                .map(new ResultFun1());
-
-
-        Observable observable = Observable.concat(memoryCache, diskCache, networkCache)
-                .first(new CacheFun1());
-
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<BaseDataBean>(1));
-
-
-    }
-
-    @Override
-    protected void getDataFromserver(String type, final String channelId, final int pageNum) {
-
-        this.mType = type;
-        this.mChannelId = channelId;
-
-        Observable<List<BaseDataBean>> diskCache = mCacheLoader.mDiskCache.get(channelId + pageNum,
-                BaseDataBean.class, CacheLoader.loadPageNum);
-
-        NewsService newsService = mRetrofit.create(NewsService.class);
-        Observable<List<BaseDataBean>> networkCache = newsService.getPastNewsService(type,
-                channelId, pageNum * 20 + "")
-                .subscribeOn(Schedulers.io())
-                .doOnNext(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
-
-                        //  mCacheLoader.mMemoryCache.put(channelId, s);
-                        //  mCacheLoader.mDiskCache.put(channelId, s, 0);
-
-                        mCacheLoader.mDiskCache.put(channelId + pageNum, s);
-
-
-                    }
-                })
-                .observeOn(Schedulers.io())
-                .map(new ResultFun1());
-
-
-        Observable observable = Observable.concat(diskCache, networkCache)
-                .first(new CacheFun1());
-
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<BaseDataBean>(1));
-
-
-    }
-
-    @Override
-    public void getPastData(String type, final String channelId, final int pageNum) {
-
-        Observable<List<BaseDataBean>> memoryCache = mCacheLoader.mMemoryCache.get(channelId +
-                "_" + pageNum, BaseDataBean.class);
-        Observable<List<BaseDataBean>> diskCache = mCacheLoader.mDiskCache.get(channelId + "_" +
-                pageNum, channelId, BaseDataBean.class);
-
-        NewsService newsService = mRetrofit.create(NewsService.class);
-        Observable<List<BaseDataBean>> pastNetCache = newsService.getPastNewsService(type,
-                channelId, pageNum * 20 + "")
-                .subscribeOn(Schedulers.io())
-                .doOnNext(new Action1<String>() {
-                    @Override
-                    public void call(final String s) {
-                        Schedulers.io().createWorker().schedule(new Action0() {
-                            @Override
-                            public void call() {
-                                //非阻塞IO线程
-                                //1存入内存
-
-                                mCacheLoader.mMemoryCache.put(channelId + "_" + pageNum, s);
-                                mCacheLoader.mDiskCache.put(channelId + "_" + pageNum, s);
-                            }
-                        });
-                    }
-                })
-                .observeOn(Schedulers.io())
-                .map(new ResultFun1());
-
-        Observable.concat(memoryCache, diskCache, pastNetCache)
-                .first(new CacheFun1())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<BaseDataBean>(3));
-    }
-
-    @Override
-    public void getMoreData(String type, final String channelId) {
-        NewsService newsService = mRetrofit.create(NewsService.class);
-        newsService.getNewsService(type, channelId)
-                .subscribeOn(Schedulers.io())
-                .doOnNext(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
-
-                       /* mCacheLoader.mMemoryCache.put(channelId, s);
-
-                      *//*  if (CacheLoader.pageSize<5){
-                            mCacheLoader.mDiskCache.put(channelId, s,CacheLoader.pageSize++);
-                        }else {
-                            mCacheLoader.mDiskCache.put(channelId,s,CacheLoader.pageSize);
-                        }*//*
-
-                        //  mCacheLoader.mDiskCache.removeDiskCache(channelId);
-
-                        mCacheLoader.mDiskCache.put(channelId, s, 0);
-*/
-
-                    }
-                })
-                .observeOn(Schedulers.io())
-                .map(new ResultFun1())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<BaseDataBean>(2));
-    }
 
     class ResultFun1 implements Func1<String, List<BaseDataBean>> {
 

@@ -20,7 +20,7 @@ public class PhotoPresenter extends BaseNewsPresenter<PhotoBean>{
         //内存缓存
         //本地缓存
         //网络缓存
-        mModel.getData(type, channelId);
+        mModel.getData(type,channelId,loadType,pageNum);
     }
 
 
