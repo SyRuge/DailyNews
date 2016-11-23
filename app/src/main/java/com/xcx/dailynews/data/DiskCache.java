@@ -1,6 +1,7 @@
 package com.xcx.dailynews.data;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -38,10 +39,12 @@ public class DiskCache {
         }
     }
 
+
     /**
      * 读取本地缓存的Observable
      */
-    public <T> Observable<List<T>> get(final String key, final Class<T> clz) {
+    public <T> Observable<List<T>> get(final String key,final String channelId, final Class<T> clz) {
+        Log.e("TAG", "disk: isEmpty  "+key);
         return Observable.create(new Observable.OnSubscribe<List<T>>() {
             @Override
             public void call(Subscriber<? super List<T>> subscriber) {
@@ -50,6 +53,37 @@ public class DiskCache {
                     return;
                 }
                 if (TextUtils.isEmpty(result)){
+
+                    subscriber.onNext(null);
+                }else {
+                    //解析Json
+                    //解析json对象
+                    JSONObject object = JSON.parseObject(result);
+                    //从json对象中获取json数组
+                    JSONArray array = object.getJSONArray(channelId);
+                    //解析json数组获取数据
+                    List<T> list = JSON.parseArray(array.toJSONString(), clz);
+                    subscriber.onNext(list);
+                }
+                subscriber.onCompleted();
+            }
+        });
+    }
+
+    /**
+     * 读取本地缓存的Observable
+     */
+    public <T> Observable<List<T>> get(final String key, final Class<T> clz) {
+        Log.e("TAG", "disk: isEmpty  "+key);
+        return Observable.create(new Observable.OnSubscribe<List<T>>() {
+            @Override
+            public void call(Subscriber<? super List<T>> subscriber) {
+                String result=getFromDisk(key);
+                if (subscriber.isUnsubscribed()){
+                    return;
+                }
+                if (TextUtils.isEmpty(result)){
+
                     subscriber.onNext(null);
                 }else {
                     //解析Json

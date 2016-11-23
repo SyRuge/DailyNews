@@ -26,6 +26,16 @@ public class PhotoModel extends BaseModel {
     }
 
     @Override
+    public void unSubscribe() {
+
+    }
+
+    @Override
+    protected void getDataFromModel(String type, String channelId, int loadType, int pageNum) {
+
+    }
+
+    @Override
     protected void getDataFromserver(String type, String channelId) {
         NewsService newsService = mRetrofit.create(NewsService.class);
         newsService.getPhotoService(ApiConstants.PHOTO_URL + Integer.valueOf(type) + "/" +

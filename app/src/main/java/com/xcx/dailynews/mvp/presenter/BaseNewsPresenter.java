@@ -43,8 +43,7 @@ public abstract class BaseNewsPresenter<T> implements NewsContract.Presenter,
 
     @Override
     public void detachView(String channelId) {
-
-        mView = null;
+     //   mView = null;
     }
 
 

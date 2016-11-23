@@ -2,6 +2,7 @@ package com.xcx.dailynews.mvp.model;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -15,6 +16,7 @@ import com.xcx.dailynews.net.NewsService;
 import java.util.List;
 
 import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
@@ -30,25 +32,37 @@ public class NewsModel extends BaseModel {
 
     protected String mType;
     protected String mChannelId;
+    private Subscription mSubscribe;
 
     @Override
     public void removeMemeoryCache(String channelId) {
-        mCacheLoader.mMemoryCache.removeMemoryCache(channelId);
+        mCacheLoader.mMemoryCache.removeMemoryCache(channelId + "_" + 0);
     }
 
     @Override
-    public void getDataFromModel(String type, final String channelId,int loadType,final int pageNum){
+    public void unSubscribe() {
+        if (mSubscribe!=null){
+            if (!mSubscribe.isUnsubscribed()){
+                mSubscribe.unsubscribe();
+            }
+        }
+    }
+
+    @Override
+    public void getDataFromModel(String type, final String channelId, int loadType, final int
+            pageNum) {
         this.mType = type;
         this.mChannelId = channelId;
 
-        Observable<List<BaseDataBean>> memoryCache = mCacheLoader.mMemoryCache.get(channelId + "_" + pageNum,
-                BaseDataBean.class);
-        Observable<List<BaseDataBean>> diskCache = mCacheLoader.mDiskCache.get(channelId + "_" + pageNum,
-                BaseDataBean.class);
+
+        Observable<List<BaseDataBean>> memoryCache = mCacheLoader.mMemoryCache.get(channelId +
+                "_" + pageNum, BaseDataBean.class);
+        Observable<List<BaseDataBean>> diskCache = mCacheLoader.mDiskCache.get(channelId + "_" +
+                pageNum, channelId, BaseDataBean.class);
 
         NewsService newsService = mRetrofit.create(NewsService.class);
-        Observable<List<BaseDataBean>> pastNetCache = newsService.getPastNewsService(type, channelId,
-                pageNum * 20 + "")
+        Observable<List<BaseDataBean>> pastNetCache = newsService.getPastNewsService(type,
+                channelId, pageNum * 20 + "")
                 .subscribeOn(Schedulers.io())
                 .doOnNext(new Action1<String>() {
                     @Override
@@ -56,6 +70,7 @@ public class NewsModel extends BaseModel {
                         Schedulers.io().createWorker().schedule(new Action0() {
                             @Override
                             public void call() {
+                                Log.e("TAG", "doOnNext: "+s );
                                 //非阻塞IO线程
                                 //1存入内存
                                 mCacheLoader.mMemoryCache.put(channelId + "_" + pageNum, s);
@@ -67,7 +82,7 @@ public class NewsModel extends BaseModel {
                 .observeOn(Schedulers.io())
                 .map(new ResultFun1());
 
-        Observable.concat(memoryCache,diskCache,pastNetCache)
+       mSubscribe=Observable.concat(memoryCache, diskCache, pastNetCache)
                 .first(new CacheFun1())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -154,14 +169,14 @@ public class NewsModel extends BaseModel {
     @Override
     public void getPastData(String type, final String channelId, final int pageNum) {
 
-        Observable<List<BaseDataBean>> memoryCache = mCacheLoader.mMemoryCache.get(channelId + "_" + pageNum,
-                BaseDataBean.class);
-        Observable<List<BaseDataBean>> diskCache = mCacheLoader.mDiskCache.get(channelId + "_" + pageNum,
-                BaseDataBean.class);
+        Observable<List<BaseDataBean>> memoryCache = mCacheLoader.mMemoryCache.get(channelId +
+                "_" + pageNum, BaseDataBean.class);
+        Observable<List<BaseDataBean>> diskCache = mCacheLoader.mDiskCache.get(channelId + "_" +
+                pageNum, channelId, BaseDataBean.class);
 
         NewsService newsService = mRetrofit.create(NewsService.class);
-        Observable<List<BaseDataBean>> pastNetCache = newsService.getPastNewsService(type, channelId,
-                pageNum * 20 + "")
+        Observable<List<BaseDataBean>> pastNetCache = newsService.getPastNewsService(type,
+                channelId, pageNum * 20 + "")
                 .subscribeOn(Schedulers.io())
                 .doOnNext(new Action1<String>() {
                     @Override
@@ -181,7 +196,7 @@ public class NewsModel extends BaseModel {
                 .observeOn(Schedulers.io())
                 .map(new ResultFun1());
 
-        Observable.concat(memoryCache,diskCache,pastNetCache)
+        Observable.concat(memoryCache, diskCache, pastNetCache)
                 .first(new CacheFun1())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

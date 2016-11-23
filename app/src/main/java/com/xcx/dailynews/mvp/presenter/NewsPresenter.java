@@ -36,5 +36,6 @@ public class NewsPresenter extends BaseNewsPresenter<BaseDataBean> {
     public void detachView(String channelId) {
         super.detachView(channelId);
         mModel.removeMemeoryCache(channelId);
+        mModel.unSubscribe();
     }
 }

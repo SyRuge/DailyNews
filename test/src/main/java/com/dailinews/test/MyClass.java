@@ -22,8 +22,6 @@ public class MyClass {
 
         List<Bean> b = JSON.parseArray(data.toJSONString(), Bean.class);
 
-        String s="hi"+"_"+2;
-        System.out.println(s);
 
     }
 

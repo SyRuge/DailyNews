@@ -33,6 +33,8 @@ public abstract class BaseModel {
         mRetrofit = UiUtil.getRetrofit();
     }
 
+    public abstract void unSubscribe();
+
     protected abstract void getDataFromModel(String type, final String channelId,int loadType,final int pageNum);
 
     protected abstract void getDataFromserver(String type, final String channelId);
