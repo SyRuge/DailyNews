@@ -37,6 +37,45 @@ public class NewsModel extends BaseModel {
     }
 
     @Override
+    public void getDataFromModel(String type, final String channelId,int loadType,final int pageNum){
+        this.mType = type;
+        this.mChannelId = channelId;
+
+        Observable<List<BaseDataBean>> memoryCache = mCacheLoader.mMemoryCache.get(channelId + "_" + pageNum,
+                BaseDataBean.class);
+        Observable<List<BaseDataBean>> diskCache = mCacheLoader.mDiskCache.get(channelId + "_" + pageNum,
+                BaseDataBean.class);
+
+        NewsService newsService = mRetrofit.create(NewsService.class);
+        Observable<List<BaseDataBean>> pastNetCache = newsService.getPastNewsService(type, channelId,
+                pageNum * 20 + "")
+                .subscribeOn(Schedulers.io())
+                .doOnNext(new Action1<String>() {
+                    @Override
+                    public void call(final String s) {
+                        Schedulers.io().createWorker().schedule(new Action0() {
+                            @Override
+                            public void call() {
+                                //非阻塞IO线程
+                                //1存入内存
+                                mCacheLoader.mMemoryCache.put(channelId + "_" + pageNum, s);
+                                mCacheLoader.mDiskCache.put(channelId + "_" + pageNum, s);
+                            }
+                        });
+                    }
+                })
+                .observeOn(Schedulers.io())
+                .map(new ResultFun1());
+
+        Observable.concat(memoryCache,diskCache,pastNetCache)
+                .first(new CacheFun1())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MySubscriber<BaseDataBean>(loadType));
+
+    }
+
+    @Override
     protected void getDataFromserver(String type, final String channelId) {
 
         this.mType = type;

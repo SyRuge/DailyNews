@@ -4,6 +4,7 @@ package com.xcx.dailynews.mvp.ui.fragment.impl;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
+import com.xcx.dailynews.Constants;
 import com.xcx.dailynews.mvp.ui.fragment.BaseNewsFragment;
 
 /**
@@ -34,7 +35,8 @@ public class NewsImplFragment extends BaseNewsFragment {
 
     @Override
     protected void getMoreData() {
-        mPresenter.getMoreData(type,channelId);
+     //   mPresenter.getMoreData(type,channelId);
+        mPresenter.getData(type,channelId, Constants.COMMON_TYPE,Constants.COMMON_NUM);
     }
 
     @Override

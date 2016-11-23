@@ -15,12 +15,13 @@ public class NewsPresenter extends BaseNewsPresenter<BaseDataBean> {
     }
 
     @Override
-    protected void howGetData(String type, String channelId) {
+    protected void howGetData(String type, String channelId, int loadType, int pageNum) {
         //三级缓存
         //内存缓存
         //本地缓存
         //网络缓存
-        mModel.getData(type, channelId);
+    //    mModel.getData(type, channelId);
+        mModel.getData(type, channelId, loadType, pageNum);
 
     }
     public void getMoreData(String type, String channelId){

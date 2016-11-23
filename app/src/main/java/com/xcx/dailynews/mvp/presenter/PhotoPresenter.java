@@ -15,7 +15,7 @@ public class PhotoPresenter extends BaseNewsPresenter<PhotoBean>{
     }
 
     @Override
-    protected void howGetData(String type, String channelId) {
+    protected void howGetData(String type, String channelId, int loadType, int pageNum) {
         //三级缓存
         //内存缓存
         //本地缓存

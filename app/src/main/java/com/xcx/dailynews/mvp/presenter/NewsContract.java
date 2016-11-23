@@ -8,7 +8,7 @@ import com.xcx.dailynews.mvp.ui.view.BaseView;
 
 public interface NewsContract {
     interface Presenter extends BasePresenter<View>{
-        void getData(String type, String channelId);
+        void getData(String type, String channelId,int loadType,int pageNum);
     }
     interface View<T> extends BaseView{
         void setDataToView(T list,int loadType);

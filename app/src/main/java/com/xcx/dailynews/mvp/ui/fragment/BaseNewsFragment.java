@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.xcx.dailynews.Constants;
 import com.xcx.dailynews.MyApplication;
 import com.xcx.dailynews.R;
 import com.xcx.dailynews.adapter.NewsAdapter;
@@ -54,7 +55,7 @@ public abstract class BaseNewsFragment extends Fragment implements NewsContract
 
     protected boolean isVisible;//当前页面是否可见的标志位
     protected boolean isPrepared;//是否已经准备好加载数据
-    protected boolean isFirstLoad=true;//是否是第一次加载
+    protected boolean isFirstLoad = true;//是否是第一次加载
     protected boolean isOnErrorPage;//现在是不是错误界面
     protected boolean isLoadMore;
     private int pageNum = 1;
@@ -69,12 +70,12 @@ public abstract class BaseNewsFragment extends Fragment implements NewsContract
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-           fragmentView = inflater.inflate(R.layout.fragment_basenews, null);
-            ButterKnife.bind(this, fragmentView);
-            initInject();
-            mPresenter.attachView(this);
-            isPrepared = true;
-            initRecyclerView();
+        fragmentView = inflater.inflate(R.layout.fragment_basenews, null);
+        ButterKnife.bind(this, fragmentView);
+        initInject();
+        mPresenter.attachView(this);
+        isPrepared = true;
+        initRecyclerView();
         return fragmentView;
     }
 
@@ -102,10 +103,11 @@ public abstract class BaseNewsFragment extends Fragment implements NewsContract
         if (!isVisible || !isPrepared) {
 
         } else {
-            if (isFirstLoad){
-                isFirstLoad=false;
-                mPresenter.getData(getType(), getChannelId());
-            }else {
+            if (isFirstLoad) {
+                isFirstLoad = false;
+                mPresenter.getData(getType(), getChannelId(), Constants.COMMON_TYPE, Constants
+                        .COMMON_NUM);
+            } else {
 
             }
         }
@@ -126,7 +128,8 @@ public abstract class BaseNewsFragment extends Fragment implements NewsContract
     @Override
     public void getPastData() {
         if (pageNum < 5) {
-            mPresenter.getPastData(getType(), getChannelId(), pageNum);
+            //  mPresenter.getPastData(getType(), getChannelId(), pageNum);
+            mPresenter.getData(getType(), getChannelId(), Constants.BOTTOM_REFRESH, pageNum);
             pageNum++;
         }
 
@@ -146,7 +149,7 @@ public abstract class BaseNewsFragment extends Fragment implements NewsContract
         //3 底部加载更多
         //4 图片的加载更多
 
-        if (loadType == 1 || loadType == 2) {
+        if (loadType == Constants.COMMON_TYPE || loadType == Constants.TOP_REFRESH) {
             if (mRefreshLayout.isRefreshing()) {
                 mRefreshLayout.setRefreshing(false);
             }
@@ -161,7 +164,7 @@ public abstract class BaseNewsFragment extends Fragment implements NewsContract
                 a.notifyDataSetChanged();
 
             }
-        } else if (loadType == 3) {
+        } else if (loadType == Constants.BOTTOM_REFRESH) {
             if (mRecyclerView.getAdapter() == null) {
                 mAdapter = new NewsAdapter(list);
                 mRecyclerView.setAdapter(mAdapter);
@@ -254,22 +257,13 @@ public abstract class BaseNewsFragment extends Fragment implements NewsContract
      */
     protected abstract String getChannelId();
 
-   /* @Override
-    public void onSaveInstanceState(Bundle outState) {
-        int position = mManager.findFirstVisibleItemPosition();
-        outState.putInt("first_position",position);
-        outState.putInt("page_number",pageNum);
-    }*/
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-        /*if (fragmentView != null) {
-            ((ViewGroup)fragmentView.getParent()).removeView(fragmentView);
-        }*/
         mPresenter.detachView(getChannelId());
-        isFirstLoad=true;
+        isFirstLoad = true;
     }
 
 }

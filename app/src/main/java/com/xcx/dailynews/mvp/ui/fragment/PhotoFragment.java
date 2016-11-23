@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.xcx.dailynews.Constants;
 import com.xcx.dailynews.MyApplication;
 import com.xcx.dailynews.R;
 import com.xcx.dailynews.adapter.StagggerAdapter;
@@ -78,7 +79,7 @@ public class PhotoFragment extends Fragment implements NewsContract.View<List<Ph
         mSlPhotoRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-               mPresenter.getData("20","1");
+               mPresenter.getData("20","1", Constants.PHOTO_TYPE,Constants.COMMON_NUM);
             }
         });
 
@@ -98,7 +99,7 @@ public class PhotoFragment extends Fragment implements NewsContract.View<List<Ph
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mPresenter.attachView(this);
-        mPresenter.getData("20", page + "");
+        mPresenter.getData("20", page + "", Constants.PHOTO_TYPE,Constants.COMMON_NUM);
         page++;
     }
 
@@ -149,7 +150,7 @@ public class PhotoFragment extends Fragment implements NewsContract.View<List<Ph
 
     @Override
     public void onGetMore() {
-        mPresenter.getData("20", page + "");
+        mPresenter.getData("20", page + "", Constants.PHOTO_TYPE,Constants.COMMON_NUM);
         page++;
     }
 

@@ -33,12 +33,18 @@ public abstract class BaseModel {
         mRetrofit = UiUtil.getRetrofit();
     }
 
+    protected abstract void getDataFromModel(String type, final String channelId,int loadType,final int pageNum);
+
     protected abstract void getDataFromserver(String type, final String channelId);
 
     protected abstract void getDataFromserver(String type, final String channelId, int pageNum);
 
     public void getData(String type, String channelId) {
         getDataFromserver(type, channelId);
+    }
+
+    public void getData(String type, final String channelId,int loadType,final int pageNum){
+        getDataFromModel(type, channelId, loadType, pageNum);
     }
 
     public void getMoreData(String type, final String channelId) {
