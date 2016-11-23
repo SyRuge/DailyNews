@@ -30,7 +30,7 @@ public class NewsModel extends BaseModel {
 
     protected String mType;
     protected String mChannelId;
-    private Subscription mSubscribe;
+    protected Subscription mSubscribe;
 
     @Override
     public void removeMemeoryCache(String channelId) {

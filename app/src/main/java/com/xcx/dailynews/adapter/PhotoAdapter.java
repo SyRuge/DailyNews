@@ -5,9 +5,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.xcx.dailynews.R;
@@ -146,16 +143,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public static class MyFooterHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.tv_footer_more)
-        public TextView mTvFooterMore;
-        @Bind(R.id.pb_photo_more)
-        public ProgressBar mPbPhotoMore;
-        @Bind(R.id.rl_footer_content)
-        public RelativeLayout mRlFooterContent;
+
 
         public MyFooterHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
         }
     }
 

@@ -30,8 +30,32 @@ public class BaseDataBean {
      * imgsrc : http://cms-bucket.nosdn.127
      * .net/27a40661459d48a5949b27e6b1cbcff020161102080528.jpeg
      */
-
+    public List<AdsBean> ads;
     public List<ImgextraBean> imgextra;
+
+    public static class AdsBean {
+
+        public AdsBean() {
+
+        }
+
+        public String title;
+        public String tag;
+        public String imgsrc;
+        public String subtitle;
+        public String url;
+
+        @Override
+        public String toString() {
+            return "AdsBean{" +
+                    "title='" + title + '\'' +
+                    ", tag='" + tag + '\'' +
+                    ", imgsrc='" + imgsrc + '\'' +
+                    ", subtitle='" + subtitle + '\'' +
+                    ", url='" + url + '\'' +
+                    '}';
+        }
+    }
 
     public static class ImgextraBean {
 
@@ -64,6 +88,7 @@ public class BaseDataBean {
                 ", imgsrc='" + imgsrc + '\'' +
                 ", url='" + url + '\'' +
                 ", url_3w='" + url_3w + '\'' +
+                ", ads=" + ads +
                 ", imgextra=" + imgextra +
                 '}';
     }

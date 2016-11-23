@@ -136,6 +136,15 @@ public abstract class BaseNewsFragment extends Fragment implements NewsContract
     }
 
     @Override
+    public boolean isHasData() {
+        if (pageNum<5){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
     public void setDataToView(List<BaseDataBean> list, int loadType) {
         if (isOnErrorPage) {
             isOnErrorPage = false;
@@ -162,7 +171,6 @@ public abstract class BaseNewsFragment extends Fragment implements NewsContract
                 a.mList.clear();
                 a.mList.addAll(list);
                 a.notifyDataSetChanged();
-
             }
         } else if (loadType == Constants.BOTTOM_REFRESH) {
             if (mRecyclerView.getAdapter() == null) {
@@ -172,7 +180,6 @@ public abstract class BaseNewsFragment extends Fragment implements NewsContract
                 NewsAdapter a = (NewsAdapter) mRecyclerView.getAdapter();
                 a.mList.addAll(list);
                 a.notifyDataSetChanged();
-
             }
         }
         mAdapter.setOnGetPastNewsListener(this);

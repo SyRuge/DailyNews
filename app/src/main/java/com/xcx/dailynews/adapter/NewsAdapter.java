@@ -5,11 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.xcx.dailynews.R;
 import com.xcx.dailynews.bean.BaseDataBean;
+import com.xcx.dailynews.mvp.ui.view.ProgressBarCircularIndeterminate;
 
 import java.util.List;
 
@@ -24,14 +26,22 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public List<BaseDataBean> mList;
 
+
     private OnGetPastNewsListener mListener;
+
+    private boolean hasData = true;
+
+    public void setHasData(boolean hasData) {
+        this.hasData = hasData;
+    }
 
     public void setOnGetPastNewsListener(OnGetPastNewsListener listener) {
         mListener = listener;
     }
 
-    public interface OnGetPastNewsListener{
+    public interface OnGetPastNewsListener {
         void getPastData();
+        boolean isHasData();
     }
 
     public NewsAdapter(List<BaseDataBean> list) {
@@ -40,7 +50,6 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-
 
         //加载更多的类型
         if (position == mList.size()) {
@@ -52,9 +61,6 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 .skipType)) {
             return 2;
         }
-
-
-
         return super.getItemViewType(position);
     }
 
@@ -109,14 +115,25 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 vh.ivFirstPic.setImageURI(imgextra.get(0).imgsrc);
                 vh.ivSecondPic.setImageURI(imgextra.get(1).imgsrc);
             }
-        }else if (holder instanceof MyFooterHolder){
-            MyFooterHolder vh= (MyFooterHolder) holder;
-            if (mListener!=null){
+        } else if (holder instanceof MyFooterHolder) {
+            MyFooterHolder vh = (MyFooterHolder) holder;
+            if (mListener != null) {
                 mListener.getPastData();
             }
+
+            if (mListener.isHasData()) {
+                //还有数据
+                vh.mTvRefresh.setVisibility(View.VISIBLE);
+                vh.mPbFooter.setVisibility(View.VISIBLE);
+                vh.mTvNodata.setVisibility(View.GONE);
+            } else {
+                vh.mTvRefresh.setVisibility(View.GONE);
+                vh.mPbFooter.setVisibility(View.GONE);
+                vh.mTvNodata.setVisibility(View.VISIBLE);
+            }
+
         }
     }
-
 
 
     @Override
@@ -128,10 +145,18 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public static class MyFooterHolder extends RecyclerView.ViewHolder {
-
+        @Bind(R.id.tv_footer_nodata)
+        public TextView mTvNodata;
+        @Bind(R.id.tv_footer_refresh)
+        public TextView mTvRefresh;
+        @Bind(R.id.pb_footer)
+        public ProgressBarCircularIndeterminate mPbFooter;
+        @Bind(R.id.rl_foot_root)
+        public RelativeLayout mRlFootRoot;
 
         public MyFooterHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this,itemView);
         }
     }
 
