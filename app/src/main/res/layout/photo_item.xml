@@ -9,8 +9,6 @@
         android:id="@+id/sv_photo_first"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:scaleType="centerCrop"
-        fresco:placeholderImage="@drawable/default_img"
         fresco:roundingBorderColor="@color/icons"
         fresco:roundingBorderWidth="3dp"
         />

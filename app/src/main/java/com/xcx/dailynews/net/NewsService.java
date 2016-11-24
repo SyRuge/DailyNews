@@ -28,5 +28,8 @@ public interface NewsService {
     //http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/1
     @GET
     Observable<String> getPhotoService(@Url String url);
+    //http://3g.163.com/news/16/1123/07/C6HRUNE9000189FH.html
+    @GET
+    Observable<String> getNewsDetailService(@Url String url);
 
 }

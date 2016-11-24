@@ -1,6 +1,7 @@
 package com.xcx.dailynews.mvp.ui.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -27,6 +28,7 @@ import com.xcx.dailynews.di.component.DaggerFragmentComponent;
 import com.xcx.dailynews.di.module.ActivityModule;
 import com.xcx.dailynews.mvp.presenter.NewsContract;
 import com.xcx.dailynews.mvp.presenter.NewsPresenter;
+import com.xcx.dailynews.mvp.ui.activity.NewsDetailActivity;
 
 import java.util.List;
 
@@ -183,6 +185,13 @@ public abstract class BaseNewsFragment extends Fragment implements NewsContract
             }
         }
         mAdapter.setOnGetPastNewsListener(this);
+        mAdapter.setOnItemViewClickListener(new NewsAdapter.OnItemViewClickListener() {
+            @Override
+            public void onItemClick(View view, int position,String url) {
+                Intent intent=new Intent(getActivity(), NewsDetailActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
     }
 
 

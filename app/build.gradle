@@ -64,4 +64,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     apt 'com.google.dagger:dagger-compiler:2.5'
     provided 'javax.annotation:javax.annotation-api:1.2'
+    compile 'org.jsoup:jsoup:1.9.2'
 }

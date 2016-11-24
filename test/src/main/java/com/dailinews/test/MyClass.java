@@ -23,6 +23,11 @@ public class MyClass {
         List<Bean> b = JSON.parseArray(data.toJSONString(), Bean.class);
 
 
+
+
+
+
+
     }
 
 

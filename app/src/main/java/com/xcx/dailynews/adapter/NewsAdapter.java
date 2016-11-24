@@ -28,19 +28,23 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     private OnGetPastNewsListener mListener;
+    private OnItemViewClickListener mOnItemViewClickListener;
 
-    private boolean hasData = true;
-
-    public void setHasData(boolean hasData) {
-        this.hasData = hasData;
+    public void setOnItemViewClickListener(OnItemViewClickListener listener) {
+        mOnItemViewClickListener = listener;
     }
 
     public void setOnGetPastNewsListener(OnGetPastNewsListener listener) {
         mListener = listener;
     }
 
+    public interface OnItemViewClickListener {
+        void onItemClick(View view, int position, String url);
+    }
+
     public interface OnGetPastNewsListener {
         void getPastData();
+
         boolean isHasData();
     }
 
@@ -89,7 +93,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
             MyViewHolder vh = (MyViewHolder) holder;
             vh.mTvNewsTitle.setText(mList.get(position).title);
@@ -121,7 +125,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 mListener.getPastData();
             }
 
-            if (mListener.isHasData()) {
+            if (mListener != null && mListener.isHasData()) {
                 //还有数据
                 vh.mTvRefresh.setVisibility(View.VISIBLE);
                 vh.mPbFooter.setVisibility(View.VISIBLE);
@@ -132,6 +136,16 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 vh.mTvNodata.setVisibility(View.VISIBLE);
             }
 
+        }
+
+        if (mOnItemViewClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = holder.getLayoutPosition();
+                    mOnItemViewClickListener.onItemClick(holder.itemView, pos, mList.get(pos).url);
+                }
+            });
         }
     }
 
@@ -156,7 +170,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public MyFooterHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 

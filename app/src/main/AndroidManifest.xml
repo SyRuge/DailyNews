@@ -31,6 +31,8 @@
         </activity>
         <activity android:name=".mvp.ui.activity.LoginActivity">
         </activity>
+        <activity android:name=".mvp.ui.activity.NewsDetailActivity">
+        </activity>
     </application>
 
 </manifest>
