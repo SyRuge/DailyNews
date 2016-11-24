@@ -2,6 +2,7 @@ package com.xcx.dailynews.di.component;
 
 import com.xcx.dailynews.di.module.ActivityModule;
 import com.xcx.dailynews.di.qualifiter.PreFragment;
+import com.xcx.dailynews.mvp.ui.activity.NewsDetailActivity;
 import com.xcx.dailynews.mvp.ui.fragment.BaseNewsFragment;
 import com.xcx.dailynews.mvp.ui.fragment.PhotoFragment;
 
@@ -15,5 +16,6 @@ import dagger.Component;
 public interface FragmentComponent {
     void injectFragment(BaseNewsFragment fragment);
     void injectPhotoFragment(PhotoFragment fragment);
+    void injectActivity(NewsDetailActivity activity);
 
 }

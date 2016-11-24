@@ -1,7 +1,9 @@
 package com.xcx.dailynews.di.module;
 
+import com.xcx.dailynews.mvp.model.NewsDetailModel;
 import com.xcx.dailynews.mvp.model.NewsModel;
 import com.xcx.dailynews.mvp.model.PhotoModel;
+import com.xcx.dailynews.mvp.presenter.NewsDetailPresenter;
 import com.xcx.dailynews.mvp.presenter.NewsPresenter;
 import com.xcx.dailynews.mvp.presenter.PhotoPresenter;
 import com.xcx.dailynews.mvp.ui.fragment.BaseNewsFragment;
@@ -19,6 +21,9 @@ public class ActivityModule {
 
     private BaseNewsFragment mFragment;
     private PhotoFragment mPhotoFragment;
+
+    public ActivityModule(){}
+
 
     public ActivityModule(PhotoFragment photoFragment) {
         mPhotoFragment = photoFragment;
@@ -48,6 +53,11 @@ public class ActivityModule {
     }
 
     @Provides
+    NewsDetailModel provideNewsDetailModel(){
+        return new NewsDetailModel();
+    }
+
+    @Provides
     PhotoPresenter providePhotoPresenter(PhotoModel model){
         return new PhotoPresenter(model);
     }
@@ -58,5 +68,10 @@ public class ActivityModule {
     @Provides
     NewsPresenter provideNewsPresenter(NewsModel model){
         return new NewsPresenter(model);
+    }
+
+    @Provides
+    NewsDetailPresenter provideNewsDetailPresenter(NewsDetailModel model){
+        return new NewsDetailPresenter(model);
     }
 }

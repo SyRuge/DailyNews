@@ -73,6 +73,31 @@ public class DiskCache {
     /**
      * 读取本地缓存的Observable
      */
+    public  Observable<String> getNewsDetail(final String key) {
+        return Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                String result=getFromDisk(key);
+                if (subscriber.isUnsubscribed()){
+                    return;
+                }
+                if (TextUtils.isEmpty(result)){
+
+                    subscriber.onNext(null);
+                }else {
+                   /* Document doc = Jsoup.parse(result);
+                    Elements es = doc.select("div.content");
+                    String html = es.html();*/
+                    subscriber.onNext(result);
+                }
+                subscriber.onCompleted();
+            }
+        });
+    }
+
+    /**
+     * 读取本地缓存的Observable
+     */
     public <T> Observable<List<T>> get(final String key, final Class<T> clz) {
         Log.e("TAG", "disk: isEmpty  "+key);
         return Observable.create(new Observable.OnSubscribe<List<T>>() {
