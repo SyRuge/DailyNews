@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.xcx.dailynews.Constants;
 import com.xcx.dailynews.MyApplication;
@@ -188,13 +187,13 @@ public abstract class BaseNewsFragment extends Fragment implements NewsContract
         mAdapter.setOnGetPastNewsListener(this);
         mAdapter.setOnItemViewClickListener(new NewsAdapter.OnItemViewClickListener() {
             @Override
-            public void onItemClick(View view, int position,String url) {
+            public void onItemClick(View view, int position,String url,String title) {
                 Intent intent=new Intent(getActivity(), NewsDetailActivity.class);
                 intent.putExtra("url",url);
                 intent.putExtra("id",getChannelId());
                 intent.putExtra("pos",position);
+                intent.putExtra("title",title);
                 getActivity().startActivity(intent);
-                Toast.makeText(getActivity(), "url=="+url, Toast.LENGTH_LONG).show();
             }
         });
     }

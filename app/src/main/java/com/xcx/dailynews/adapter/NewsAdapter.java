@@ -2,6 +2,7 @@ package com.xcx.dailynews.adapter;
 
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public interface OnItemViewClickListener {
-        void onItemClick(View view, int position, String url);
+        void onItemClick(View view, int position, String url, String title);
     }
 
     public interface OnGetPastNewsListener {
@@ -116,14 +117,24 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 vh.ivFirstPic.setVisibility(View.VISIBLE);
                 vh.ivSecondPic.setVisibility(View.VISIBLE);
                 vh.ivOnlyPic.setVisibility(View.GONE);
-                vh.ivFirstPic.setImageURI(imgextra.get(0).imgsrc);
-                vh.ivSecondPic.setImageURI(imgextra.get(1).imgsrc);
+
+                if (!TextUtils.isEmpty(imgextra.get(0).imgsrc)) {
+
+                    vh.ivFirstPic.setImageURI(imgextra.get(0).imgsrc);
+                }
+
+                if (!TextUtils.isEmpty(imgextra.get(1).imgsrc)) {
+
+                    vh.ivSecondPic.setImageURI(imgextra.get(1).imgsrc);
+                }
+
             }
         } else if (holder instanceof MyFooterHolder) {
             MyFooterHolder vh = (MyFooterHolder) holder;
             if (mListener != null) {
                 mListener.getPastData();
             }
+
 
             if (mListener != null && mListener.isHasData()) {
                 //还有数据
@@ -143,7 +154,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     int pos = holder.getLayoutPosition();
-                    mOnItemViewClickListener.onItemClick(holder.itemView, pos, mList.get(pos).url);
+                    mOnItemViewClickListener.onItemClick(holder.itemView, pos, mList.get(pos)
+                            .url, mList.get(pos).title);
                 }
             });
         }

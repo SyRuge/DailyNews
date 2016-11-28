@@ -36,7 +36,7 @@ public class NewsImplFragment extends BaseNewsFragment {
     @Override
     protected void getMoreData() {
      //   mPresenter.getMoreData(type,channelId);
-        mPresenter.getData(type,channelId, Constants.COMMON_TYPE,Constants.COMMON_NUM);
+        mPresenter.getData(type,channelId, Constants.MOREDATA_TYPE,Constants.COMMON_NUM);
     }
 
     @Override

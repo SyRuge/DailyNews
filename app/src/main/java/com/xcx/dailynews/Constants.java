@@ -11,4 +11,5 @@ public class Constants {
     public static final int BOTTOM_REFRESH = 3;
     public static final int PHOTO_TYPE = 4;
     public static final int NEWS_DETAIL = 5;
+    public static final int MOREDATA_TYPE = 6;
 }

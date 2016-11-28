@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xcx.dailynews.ApiConstants;
+import com.xcx.dailynews.Constants;
 import com.xcx.dailynews.bean.BaseDataBean;
 import com.xcx.dailynews.data.helper.MyOpenHelper;
 import com.xcx.dailynews.net.NewsService;
@@ -79,11 +80,20 @@ public class NewsModel extends BaseModel {
                 .observeOn(Schedulers.io())
                 .map(new ResultFun1());
 
-       mSubscribe=Observable.concat(memoryCache, diskCache, networkCache)
-                .first(new CacheFun1())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MySubscriber<BaseDataBean>(loadType));
+        if (loadType== Constants.MOREDATA_TYPE){
+            //加载更多数据,不使用缓存
+            mSubscribe=networkCache
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new MySubscriber<BaseDataBean>(Constants.COMMON_TYPE));
+        }else {
+
+            mSubscribe = Observable.concat(memoryCache, diskCache, networkCache)
+                    .first(new CacheFun1())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new MySubscriber<BaseDataBean>(loadType));
+        }
 
     }
 

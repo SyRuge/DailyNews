@@ -1,5 +1,6 @@
 package com.xcx.dailynews.mvp.ui.activity;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +10,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,6 +27,7 @@ import com.xcx.dailynews.util.ViewUtil;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import javax.inject.Inject;
@@ -51,20 +54,26 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsContrac
     TextView mTvNewsDetail;
     @Bind(R.id.main_content)
     CoordinatorLayout mMainContent;
+    @Bind(R.id.wv_news_detail)
+    WebView mWebView;
 
     @Inject
     NewsDetailPresenter mPresenter;
     private String mUrl;
     private String mChannelId;
     private int mPosition;
+    private String mTitle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
-        mUrl = getIntent().getStringExtra("url");
+        String base_url = getIntent().getStringExtra("url");
+        mUrl = base_url.substring(0, base_url.lastIndexOf(".html")) + "_0.html";
         mChannelId = getIntent().getStringExtra("id");
         mPosition = getIntent().getIntExtra("pos", 0);
+        mTitle = getIntent().getStringExtra("title");
         ButterKnife.bind(this);
         initView();
         initInject();
@@ -76,7 +85,9 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsContrac
 
     private void initView() {
         ViewUtil.changeStatusBarColor(this);
+
     }
+
 
     private void initInject() {
         AppComponent appComponent = ((MyApplication) getApplication()).getAppComponent();
@@ -119,13 +130,53 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsContrac
         return true;
     }
 
+
     @Override
     public void setDataToView(String list, int loadType) {
-        Document doc = Jsoup.parse(list);
+        /*Document doc = Jsoup.parse(list);
         Elements es = doc.select("div.content");
         String html = es.html();
-        mTvNewsDetail.setText(Html.fromHtml(html));
+        mTvNewsDetail.setText(Html.fromHtml(html));*/
+
+
+        Document doc = Jsoup.parse(list);
+        Elements es = doc.select("div.content");
+        Elements div = doc.select("div.content");
+        Elements text = es.select("p");
+
+        Elements pic = text.select("p[align]");
+        if (pic != null && pic.size() != 0) {
+            Element img = pic.select("a").first();
+            String picUrl = img.attr("href");
+
+            if (!TextUtils.isEmpty(picUrl)) {
+                String subUrl = "http:" + picUrl.substring(picUrl.indexOf("%3A") + 3);
+                mSdNewsPic.setImageURI(subUrl);
+            }
+        }
+
+        boolean isFirstAppend = true;
+        //   div.html("<p> &nbsp; </p>");
+
+        for (Element e : text) {
+            if (!e.hasAttr("align")) {
+                if (isFirstAppend) {
+                    isFirstAppend = false;
+                    div.html(e.toString());
+                } else {
+                    div.append(e.toString());
+                }
+                //  div.append(e.toString());
+            }
+        }
+
+        mTvTitle.setText(mTitle);
+
+        Document d = Jsoup.parseBodyFragment(div.toString());
+        mTvNewsDetail.setText(Html.fromHtml(d.html()));
+
     }
+
 
     @Override
     public void showNetErrorMessage() {
@@ -136,4 +187,12 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsContrac
     public void showErrorMessage(String message) {
 
     }
+
+    class MyImageGetter implements Html.ImageGetter {
+        @Override
+        public Drawable getDrawable(String source) {
+            return null;
+        }
+    }
+
 }
