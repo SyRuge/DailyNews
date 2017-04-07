@@ -47,13 +47,13 @@
 
 
                         <ImageView
+                            android:padding="10dp"
+                            android:clickable="true"
                             android:id="@+id/iv_add_channel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginRight="5dp"
                             android:background="@color/colorPrimary"
                             android:src="@drawable/add"/>
 

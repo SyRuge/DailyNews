@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.1"
     defaultConfig {
         applicationId "com.xcx.dailynews"
         minSdkVersion 14
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -21,16 +21,26 @@ android {
 }
 
 
+repositories{
+    flatDir{
+        dirs 'libs' //就是你放aar的目录地址
+    }
+}
+
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     //Dagger
+
     //Retrofit
+
     //Rxjava
+
     // compile 'com.jakewharton:butterknife:8.4.0'
+
     // compile 'com.google.code.gson:gson:2.6.2'
 
     // 在 API < 14 上的机器支持 WebP 时，需要添加
@@ -39,11 +49,11 @@ dependencies {
 
     // 支持 WebP （静态图+动图），需要添加
 
-//    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile 'com.android.support:recyclerview-v7:24.2.1'
+    //    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.android.support:recyclerview-v7:25.0.1'
     compile 'in.srain.cube:ultra-ptr:1.0.11'
     compile 'com.google.code.gson:gson:2.6.2'
-    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.4'
     compile 'com.google.dagger:dagger:2.5'
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
@@ -59,10 +69,16 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.0'
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.android.support:design:24.2.1'
-    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.android.support:design:25.0.1'
+    compile 'com.android.support:support-v4:25.0.1'
     testCompile 'junit:junit:4.12'
     apt 'com.google.dagger:dagger-compiler:2.5'
     provided 'javax.annotation:javax.annotation-api:1.2'
     compile 'org.jsoup:jsoup:1.9.2'
+    compile name: 'SMSSDK-2.1.4', ext: 'aar'
+    compile name: 'SMSSDKGUI-2.1.4', ext: 'aar'
+    compile files('libs/MobCommons-2017.0321.1624.jar')
+    compile files('libs/MobTools-2017.0321.1624.jar')
+    compile files('libs/MobCommons-2017.0322.0931.jar')
+    compile files('libs/open_sdk_r5788_lite.jar')
 }

@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+   >
 
-
+<!-- android:fitsSystemWindows="true"-->
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
@@ -98,24 +105,25 @@
             android:paddingTop="24dp">
 
             <WebView
-                android:visibility="gone"
-                 android:id="@+id/wv_news_detail"
+                android:id="@+id/wv_news_detail"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></WebView>
+                android:layout_height="match_parent"
+                android:visibility="visible"></WebView>
 
             <TextView
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="5dp"
-                android:textColor="@color/primary_text"
-                android:textSize="18sp"
-                android:visibility="visible"
                 android:id="@+id/tv_news_detail_content"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/primary_text"
+                android:textSize="18sp"
+                android:visibility="gone"/>
 
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

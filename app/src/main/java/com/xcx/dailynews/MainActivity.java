@@ -1,5 +1,6 @@
 package com.xcx.dailynews;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -11,19 +12,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.tencent.tauth.Tencent;
+import com.xcx.dailynews.mvp.ui.activity.AddChannelActivity;
 import com.xcx.dailynews.mvp.ui.fragment.BasePagerFragment;
 import com.xcx.dailynews.mvp.ui.fragment.Fragment2;
 import com.xcx.dailynews.mvp.ui.fragment.MyFragment;
 import com.xcx.dailynews.mvp.ui.fragment.PhotoFragment;
 import com.xcx.dailynews.mvp.ui.view.MyFragmentTabHost;
+import com.xcx.dailynews.util.UiUtil;
 import com.xcx.dailynews.util.ViewUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import cn.sharesdk.framework.ShareSDK;
+import cn.smssdk.SMSSDK;
+
+import static android.provider.UserDictionary.Words.APP_ID;
 
 public class MainActivity extends AppCompatActivity implements BasePagerFragment
         .OnBindPagerAndTabListener {
@@ -42,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements BasePagerFragment
     RelativeLayout mTablayoutParent;
     @Bind(R.id.cl_content)
     CoordinatorLayout mCoordinatorLayout;
+    @Bind(R.id.iv_add_channel)
+    ImageView mIvAddChannel;
 
 
     @Override
@@ -49,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements BasePagerFragment
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        initThridSDK();
 
         initView();
         initToolBarAndDrawerLayout();
@@ -56,6 +68,15 @@ public class MainActivity extends AppCompatActivity implements BasePagerFragment
         initTabs();
         initData();
         initListener();
+    }
+
+    /**
+     * 初始化第三方SDK
+     */
+    private void initThridSDK() {
+        ShareSDK.initSDK(this,"1cca67705dc55");
+        SMSSDK.initSDK(this, "1cca397f74a6c", "7299c6f48436732111bcca0a33f5a2e1");
+        Tencent mTencent = Tencent.createInstance(APP_ID, UiUtil.getAppContext());
     }
 
 
@@ -132,6 +153,14 @@ public class MainActivity extends AppCompatActivity implements BasePagerFragment
     }
 
     private void initListener() {
+
+        mIvAddChannel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, AddChannelActivity.class));
+            }
+        });
+
         mFragmentTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {

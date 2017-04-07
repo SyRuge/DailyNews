@@ -35,6 +35,8 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import static com.xcx.dailynews.R.id.toolbar;
 
@@ -117,12 +119,15 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsContrac
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fb_news_share:
+                showShare();
                 break;
             case R.id.iv_news_back:
                 finish();
                 break;
         }
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -172,8 +177,10 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsContrac
 
         mTvTitle.setText(mTitle);
 
-        Document d = Jsoup.parseBodyFragment(div.toString());
-        mTvNewsDetail.setText(Html.fromHtml(d.html()));
+        Document d = Jsoup.parseBodyFragment(es.toString());
+      //  mTvNewsDetail.setText(Html.fromHtml(d.html()));
+        mWebView.getSettings().setBlockNetworkImage(false);
+        mWebView.loadDataWithBaseURL(null,d.html(),"text/html","utf-8",null);
 
     }
 
@@ -186,6 +193,36 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsContrac
     @Override
     public void showErrorMessage(String message) {
 
+    }
+
+    /**
+     * 第三方分享
+     */
+    private void showShare() {
+        ShareSDK.initSDK(this);
+        OnekeyShare oks = new OnekeyShare();
+        //关闭sso授权
+        oks.disableSSOWhenAuthorize();
+
+        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间等使用
+        oks.setTitle(mTitle);
+        // titleUrl是标题的网络链接，QQ和QQ空间等使用
+        oks.setTitleUrl(mUrl);
+        // text是分享文本，所有平台都需要这个字段
+        oks.setText(mUrl);
+        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+        //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+        // url仅在微信（包括好友和朋友圈）中使用
+        oks.setUrl("http://sharesdk.cn");
+        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
+        oks.setComment("我是测试评论文本");
+        // site是分享此内容的网站名称，仅在QQ空间使用
+        oks.setSite(getString(R.string.app_name));
+        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
+        oks.setSiteUrl("http://sharesdk.cn");
+
+        // 启动分享GUI
+        oks.show(this);
     }
 
     class MyImageGetter implements Html.ImageGetter {
