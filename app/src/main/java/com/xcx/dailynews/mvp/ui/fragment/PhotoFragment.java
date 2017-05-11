@@ -1,6 +1,7 @@
 package com.xcx.dailynews.mvp.ui.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,7 +12,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.xcx.dailynews.Constants;
 import com.xcx.dailynews.MyApplication;
@@ -23,6 +23,7 @@ import com.xcx.dailynews.di.component.DaggerFragmentComponent;
 import com.xcx.dailynews.di.module.ActivityModule;
 import com.xcx.dailynews.mvp.presenter.NewsContract;
 import com.xcx.dailynews.mvp.presenter.PhotoPresenter;
+import com.xcx.dailynews.mvp.ui.activity.LargePhotoActivity;
 
 import java.util.List;
 
@@ -131,9 +132,10 @@ public class PhotoFragment extends Fragment implements NewsContract.View<List<Ph
 
         mAdapter.setOnItemClickLitener(new StagggerAdapter.OnItemClickLitener() {
             @Override
-            public void onItemClick(View view, int position) {
-                Toast.makeText(getActivity(), "position=" + position, Toast.LENGTH_SHORT)
-                        .show();
+            public void onItemClick(View view, Bundle bundle) {
+                Intent intent = new Intent(getActivity(), LargePhotoActivity.class);
+                intent.putExtra("bundle",bundle);
+                getActivity().startActivity(intent);
             }
         });
     }

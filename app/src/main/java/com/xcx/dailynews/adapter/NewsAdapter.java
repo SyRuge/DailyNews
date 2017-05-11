@@ -1,6 +1,7 @@
 package com.xcx.dailynews.adapter;
 
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -40,12 +41,12 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public interface OnItemViewClickListener {
-        void onItemClick(View view, int position, String url, String title);
+
+        void onItemClick(View view, int position,  Bundle bundle);
     }
 
     public interface OnGetPastNewsListener {
         void getPastData();
-
         boolean isHasData();
     }
 
@@ -154,8 +155,34 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     int pos = holder.getLayoutPosition();
-                    mOnItemViewClickListener.onItemClick(holder.itemView, pos, mList.get(pos)
-                            .url, mList.get(pos).title);
+
+                    Bundle bundle = new Bundle();
+                    int type = getItemViewType(pos);
+                    if (type==2){
+                        bundle.putInt("type",type);
+                        List<BaseDataBean.ImgextraBean> imgextra = mList.get(pos).imgextra;
+                        if (imgextra != null&&imgextra.size()!=0) {
+                            bundle.putString("title", mList.get(pos).title);
+                            bundle.putString("imgUrl1",imgextra.get(0).imgsrc);
+                            bundle.putString("imgUrl2",imgextra.get(1).imgsrc);
+                        }
+
+                    }else {
+
+                        BaseDataBean b = mList.get(pos);
+                        bundle.putString("title", b.title);
+                        bundle.putString("digest", b.digest);
+                        bundle.putString("url", b.url);
+                        bundle.putString("lmodify", b.lmodify);
+                        bundle.putString("source", b.source);
+                        bundle.putString("url_3w", b.url_3w);
+                        bundle.putString("postid", b.postid);
+
+                    }
+
+
+
+                    mOnItemViewClickListener.onItemClick(holder.itemView, pos, bundle);
                 }
             });
         }

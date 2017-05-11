@@ -29,6 +29,7 @@ import com.xcx.dailynews.di.module.ActivityModule;
 import com.xcx.dailynews.mvp.presenter.NewsContract;
 import com.xcx.dailynews.mvp.presenter.NewsPresenter;
 import com.xcx.dailynews.mvp.ui.activity.NewsDetailActivity;
+import com.xcx.dailynews.mvp.ui.activity.NewsPhotoActivity;
 
 import java.util.List;
 
@@ -139,9 +140,9 @@ public abstract class BaseNewsFragment extends Fragment implements NewsContract
 
     @Override
     public boolean isHasData() {
-        if (pageNum<5){
+        if (pageNum < 5) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
@@ -187,13 +188,19 @@ public abstract class BaseNewsFragment extends Fragment implements NewsContract
         mAdapter.setOnGetPastNewsListener(this);
         mAdapter.setOnItemViewClickListener(new NewsAdapter.OnItemViewClickListener() {
             @Override
-            public void onItemClick(View view, int position,String url,String title) {
-                Intent intent=new Intent(getActivity(), NewsDetailActivity.class);
-                intent.putExtra("url",url);
-                intent.putExtra("id",getChannelId());
-                intent.putExtra("pos",position);
-                intent.putExtra("title",title);
-                getActivity().startActivity(intent);
+            public void onItemClick(View view, int position,  Bundle bundle) {
+                int type = bundle.getInt("type", 0);
+                if (type==2){
+                    Intent intent = new Intent(getActivity(), NewsPhotoActivity.class);
+                    intent.putExtra("value", bundle);
+                    getActivity().startActivity(intent);
+                }else {
+                    Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+                    bundle.putString("id", getChannelId());
+                    bundle.putInt("pos", position);
+                    intent.putExtra("value", bundle);
+                    getActivity().startActivity(intent);
+                }
             }
         });
     }
@@ -259,6 +266,13 @@ public abstract class BaseNewsFragment extends Fragment implements NewsContract
         //  mRefreshLayout.setVisibility(View.GONE);
         mRlErrorRefresh.setVisibility(View.VISIBLE);
         mRecyclerView.setVisibility(View.GONE);
+        mBtnErrorRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.getData(getType(), getChannelId(), Constants.COMMON_TYPE, Constants
+                        .COMMON_NUM);
+            }
+        });
 
     }
 

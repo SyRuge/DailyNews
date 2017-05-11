@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:background="@color/primary_text"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    tools:context="com.xcx.dailynews.mvp.ui.activity.LargePhotoActivity">
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:layout_gravity="center"
+        android:id="@+id/sd_large_photo"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:scaleType="centerCrop"
+        fresco:placeholderImage="@mipmap/ic_launcher"
+        fresco:layout_collapseMode="parallax"
+        />
+
+</FrameLayout>

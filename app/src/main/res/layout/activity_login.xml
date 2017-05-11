@@ -5,52 +5,52 @@
               android:fitsSystemWindows="true"
               android:orientation="vertical">
 
+
     <LinearLayout
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="56dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp">
+       >
 
-        <ImageView
-            android:scaleType="centerCrop"
-            android:layout_width="match_parent"
-            android:layout_marginTop="15dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="24dp"
-            android:src="@drawable/drawer"/>
 
         <!-- Email Label -->
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/ti_login_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp">
 
             <EditText
-                android:textColor="@color/primary_text"
                 android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textEmailAddress"
+                android:textColor="@color/primary_text"/>
         </android.support.design.widget.TextInputLayout>
 
         <!-- Password Label -->
+
+
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/ti_login_pwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp">
 
+
             <EditText
-                android:textColor="@color/primary_text"
                 android:id="@+id/input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:textColor="@color/primary_text"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton
@@ -61,17 +61,83 @@
             android:layout_marginTop="24dp"
             android:padding="12dp"
             android:text="登陆"
-            android:textAllCaps="false"/>
+            android:textColor="@color/primary_text"
+            android:textAllCaps="false"
+            android:textSize="18sp"/>
 
         <TextView
-            android:clickable="true"
-            android:id="@+id/link_signup"
+            android:id="@+id/tv_link_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
+            android:clickable="true"
             android:gravity="center"
-            android:text="没有注册?点这里"
-            android:textSize="16dip"/>
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
+            android:text="没有账号？点这里注册"
+            android:textColor="@color/primary_text"
+            android:textSize="16sp"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/qq_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/qqlogin"
+                    android:clickable="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:text="QQ登陆"
+                    android:textColor="@color/primary_text"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/sms_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/smslogin"
+                    android:clickable="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:text="手机号注册"
+                    android:textColor="@color/primary_text"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
 
     </LinearLayout>
+
 </LinearLayout>

@@ -12,6 +12,19 @@ public class ApiConstants {
     public static final String PHOTO_URL = "http://gank.io/api/data/%E7%A6%8F%E5%88%A9/";
     public static final String END_URL = "-20.html";
     public static final String ENDDETAIL_URL = "/full.html";
+    //  public static final String LOGIN_URL = "http://120.24.76.152/Login/LoginServlet";
+    public static final String LOGIN_URL = "http://192.168.191.1/Login/LoginServlet";
+    public static final String SELECT_COLLECT_URL = "http://192.168.191.1/Login/LoginServlet";
+    public static final String INSERT_COLLECT_URL = "http://192.168.191.1/Login/InsertServlet";
+    public static final String DELETE_COLLECT_URL = "http://192.168.191.1/Login/LoginServlet";
+    public static final String UPDATE_COLLECT_URL = "http://192.168.191.1/Login/UpdateServlet";
+  //  public static final String SIGN_UP_URL = "http://120.24.76.152/Login/SignUpServlet";
+    public static final String SIGN_UP_URL = "http://192.168.191.1/Login/SignUpServlet";
+ //   public static final String CHECK_VERSION_URL = "http://120.24.76.152/Login/CheckVersionServlet";
+    public static final String CHECK_VERSION_URL = "http://192.168.191.1/Login/CheckVersionServlet";
+
+    //真正的新闻详情的URL
+    public static final String TRUE_NEWS_DETAIL_URL = "http://3g.163.com/touch/article/";
 
     // 新闻详情
     public static final String NEWS_DETAIL = NETEAST_HOST + "nc/article/";

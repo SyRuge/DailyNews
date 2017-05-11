@@ -1,5 +1,7 @@
 package com.xcx.dailynews.mvp.presenter;
 
+import com.xcx.dailynews.bean.CollectBean;
+import com.xcx.dailynews.bean.NewsDetailBean;
 import com.xcx.dailynews.mvp.model.BaseModel;
 import com.xcx.dailynews.mvp.ui.view.OnGetDataListener;
 
@@ -7,7 +9,8 @@ import com.xcx.dailynews.mvp.ui.view.OnGetDataListener;
  * Created by xcx on 2016/11/24.
  */
 
-public class NewsDetailPresenter implements NewsContract.Presenter,OnGetDataListener<String> {
+public class NewsDetailPresenter implements NewsContract.Presenter,
+        OnGetDataListener<NewsDetailBean> {
     protected NewsContract.View mView;
     protected BaseModel mModel;
 
@@ -16,6 +19,12 @@ public class NewsDetailPresenter implements NewsContract.Presenter,OnGetDataList
         mModel.setOnGetDataListener(this);
         mModel.getData(type, channelId, loadType, pageNum);
     }
+
+    @Override
+    public void getData(String url, String type, CollectBean collectBean) {
+
+    }
+
 
     public NewsDetailPresenter(BaseModel model) {
         mModel = model;
@@ -32,8 +41,8 @@ public class NewsDetailPresenter implements NewsContract.Presenter,OnGetDataList
     }
 
     @Override
-    public void onDataSuccess(String list, int loadType) {
-        mView.setDataToView(list, loadType);
+    public void onDataSuccess(NewsDetailBean bean, int loadType) {
+        mView.setDataToView(bean, loadType);
         mModel.unSubscribe();
     }
 

@@ -1,5 +1,6 @@
 package com.xcx.dailynews.mvp.presenter;
 
+import com.xcx.dailynews.bean.CollectBean;
 import com.xcx.dailynews.mvp.model.BaseModel;
 import com.xcx.dailynews.mvp.ui.view.OnGetDataListener;
 
@@ -34,6 +35,11 @@ public abstract class BaseNewsPresenter<T> implements NewsContract.Presenter,
     public void getData(String type, String channelId, int loadType, int pageNum) {
         mModel.setOnGetDataListener(this);
         howGetData(type, channelId, loadType, pageNum);
+    }
+
+    @Override
+    public void getData(String url,String type, CollectBean collectBean) {
+        mModel.setOnGetDataListener(this);
     }
 
     @Override

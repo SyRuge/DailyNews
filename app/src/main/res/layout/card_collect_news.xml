@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="8dp"
+    app:cardBackgroundColor="@color/colorWhite"
+    app:cardCornerRadius="10dp"
+    app:contentPadding="5dp">
+
+    <LinearLayout
+        android:id="@+id/ll_collect_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/tv_collect_source"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="3dp"
+            android:clickable="true"
+            android:ellipsize="end"
+            android:lines="1"
+            android:maxLines="1"
+            android:text="未知来源"
+            android:textColor="@color/primary_text"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/tv_collect_news_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="5dp"
+            android:ellipsize="end"
+            android:lines="2"
+            android:maxLines="2"
+            android:text="撒旦发所大撒所多打上单撒按时打算多阿萨斯多熬啊所大撒所阿萨德"
+            android:textColor="@color/primary_text"
+            android:textSize="16sp"/>
+
+
+        <TextView
+            android:id="@+id/tv_collect_news_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="5dp"
+           android:layout_marginTop="3dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:text="TextViewsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdffsd"
+            android:textColor="@color/primary_text"/>
+
+
+        <TextView
+            android:id="@+id/tv_collect_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="4dp"
+            android:text="2017.4.10"
+            android:textColor="@color/secondary_text"
+            android:textSize="10sp"/>
+
+
+        <TextView
+            android:id="@+id/tv_collect_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:clickable="true"
+            android:padding="5dp"
+            android:text="取消收藏"
+            android:textColor="@color/cardTextColor"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
+

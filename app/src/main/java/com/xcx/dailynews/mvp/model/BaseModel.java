@@ -2,6 +2,7 @@ package com.xcx.dailynews.mvp.model;
 
 import android.util.Log;
 
+import com.xcx.dailynews.bean.CollectBean;
 import com.xcx.dailynews.data.CacheLoader;
 import com.xcx.dailynews.mvp.ui.view.OnGetDataListener;
 import com.xcx.dailynews.util.UiUtil;
@@ -43,6 +44,9 @@ public abstract class BaseModel {
         getDataFromModel(type, channelId, loadType, pageNum);
     }
 
+    public void getData(String url,String type, CollectBean collectBean){
+
+    }
 
     protected void initDataBase() {
 

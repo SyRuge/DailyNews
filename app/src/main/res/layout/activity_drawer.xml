@@ -14,7 +14,10 @@
         android:layout_height="100dp"
         app:srcCompat="@drawable/drawer"/>
 
+
+
     <TextView
+        android:clickable="true"
          android:id="@+id/tv_drawer_news"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,6 +32,7 @@
         android:textSize="15sp"/>
 
     <TextView
+        android:clickable="true"
         android:id="@+id/tv_drawer_photo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,49 +47,17 @@
         android:textSize="15sp"/>
 
     <TextView
-        android:id="@+id/tv_drawer_movie"
+        android:clickable="true"
+        android:id="@+id/tv_drawer_collect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="15dp"
-        android:drawableLeft="@drawable/movie"
+        android:drawableLeft="@drawable/collect_drawer"
         android:drawablePadding="20dp"
         android:gravity="center_vertical"
-        android:text="视频"
-        android:textColor="@color/primary_text"
-        android:textSize="15sp"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/divider"/>
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:drawablePadding="20dp"
-        android:gravity="center_vertical"
-        android:text="设置"
-        android:textColor="@color/secondary_text"
-        android:textSize="15sp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="15dp"
-        android:drawablePadding="20dp"
-        android:gravity="center_vertical"
-        android:text="夜间模式"
+        android:text="收藏"
         android:textColor="@color/primary_text"
         android:textSize="15sp"/>
 

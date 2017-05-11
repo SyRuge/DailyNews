@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
-    <!--Share SDK需要的权限-->
+    <!-- Share SDK需要的权限 -->
     <uses-permission android:name="android.permission.GET_TASKS"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
@@ -20,7 +20,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 
-    <!--短信验证码需要的权限-->
+    <!-- 短信验证码需要的权限 -->
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -32,7 +32,7 @@
     <uses-permission android:name="android.permission.GET_TASKS"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <!-- To auto-complete the email text field in the loginService form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
     <uses-permission android:name="android.permission.READ_PROFILE"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
@@ -40,7 +40,7 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -62,7 +62,7 @@
         <activity android:name=".mvp.ui.activity.AddChannelActivity">
         </activity>
 
-        <!--短信验证码SDK-->
+        <!-- 短信验证码SDK -->
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -73,6 +73,7 @@
             <!-- QQ和QQ空间分享 QQ登录的回调必须要配置的 -->
             <intent-filter>
                 <data android:scheme="tencent100371282"/>
+
                 <action android:name="android.intent.action.VIEW"/>
 
                 <category android:name="android.intent.category.BROWSABLE"/>
@@ -82,14 +83,15 @@
             <!-- 新浪微博客户端分享回调必须配置 -->
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
+
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
-
         </activity>
 
-        <!--Share SDK-->
+        <!-- Share SDK -->
 
-        <!--微信分享回调 -->
+
+        <!-- 微信分享回调 -->
         <activity
             android:name="cn.sharesdk.demo.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -97,7 +99,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
-        <!--QQ登陆需要配置的-->
+        <!-- QQ登陆需要配置的 -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
@@ -111,7 +113,26 @@
                 <data android:scheme="tencent1106089018"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <activity android:name=".mvp.ui.activity.SignUpActivity">
+        </activity>
 
+        <provider
+            android:name=".db.CollectContentProvider"
+            android:authorities="com.xcx.CollectContentProvider"
+            android:enabled="true"
+            android:exported="false">
+        </provider>
+
+        <activity android:name=".mvp.ui.activity.AboutActivity">
+        </activity>
+        <activity android:name=".mvp.ui.activity.NewsPhotoActivity">
+        </activity>
+        <activity android:name=".mvp.ui.activity.LargePhotoActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.xcx.dailynews.adapter;
 
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +39,7 @@ public class StagggerAdapter extends RecyclerView.Adapter<StagggerAdapter.MyHold
     public List<Integer> mHeight;
 
     public interface OnItemClickLitener {
-        void onItemClick(View view, int position);
+        void onItemClick(View view, Bundle bundle);
     }
 
     private OnItemClickLitener mOnItemClickLitener;
@@ -90,7 +91,10 @@ public class StagggerAdapter extends RecyclerView.Adapter<StagggerAdapter.MyHold
                 @Override
                 public void onClick(View v) {
                     int pos = holder.getLayoutPosition();
-                    mOnItemClickLitener.onItemClick(holder.itemView, pos);
+                    Bundle b = new Bundle();
+                    b.putInt("position",pos);
+                    b.putString("url",mList.get(pos).url);
+                    mOnItemClickLitener.onItemClick(holder.itemView, b);
                 }
             });
 

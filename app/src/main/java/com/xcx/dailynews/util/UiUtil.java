@@ -17,7 +17,7 @@ public class UiUtil {
     }
 
     public static MyApplication getApplication() {
-        return MyApplication.getApplication();
+        return MyApplication.getMyApplication();
     }
 
     public static Retrofit getRetrofit() {

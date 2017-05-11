@@ -1,5 +1,7 @@
 package com.xcx.dailynews.util;
 
+import com.xcx.dailynews.bean.CollectBean;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -8,6 +10,51 @@ import java.security.NoSuchAlgorithmException;
  */
 
 public class OtherUtil {
+
+    /**
+     * 拼接json
+     */
+    public static String getJson(CollectBean bean){
+        StringBuilder sb = new StringBuilder();
+
+        String url = bean.getUrl();
+        sb.append("{\"url\":\"");
+        sb.append(url);
+        sb.append("\",");
+
+        String channelid = bean.getChannelId();
+        sb.append("\"channelid\":\"");
+        sb.append(channelid);
+        sb.append("\",");
+
+        int position = bean.getPosition();
+        sb.append("\"position\":\"");
+        sb.append(position);
+        sb.append("\",");
+
+        String source = bean.getSource();
+        sb.append("\"source\":\"");
+        sb.append(source);
+        sb.append("\",");
+
+        String title =  bean.getTitle();
+        sb.append("\"title\":\"");
+        sb.append(title);
+        sb.append("\",");
+
+        String digest = bean.getDigest();
+        sb.append("\"digest\":\"");
+        sb.append(digest);
+        sb.append("\",");
+
+        String lmodify =  bean.getLmodify();
+        sb.append("\"lmodify\":\"");
+        sb.append(lmodify);
+        sb.append("\"}");
+
+        return sb.toString();
+    }
+
     /**
      * 将URL转换成key
      */

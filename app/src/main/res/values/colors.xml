@@ -6,6 +6,7 @@
     <color name="colorPrimaryDark">#1976D2</color>
     <color name="colorAccent">#03A9F4</color>
     <color name="tabIndecatorColor">#F44336</color>
+    <color name="cardTextColor">#F57C00</color>
 
 
 
@@ -14,6 +15,8 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
     <color name="background">#e0e0e0</color>
+    <color name="snackBarBackground">#FF323232</color>
+    <color name="snackActionColor">#FFC2185B</color>
 
     <!--
 

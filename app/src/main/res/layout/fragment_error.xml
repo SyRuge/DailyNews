@@ -5,7 +5,7 @@
 
 
     <Button
-        android:id="@+id/btn_error_refresh"
+        android:id="@+id/btn_error_t_refresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -18,7 +18,7 @@
         android:id="@+id/iv_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/btn_error_refresh"
+        android:layout_above="@id/btn_error_t_refresh"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="8dp"
         android:background="@drawable/ic_error_page"/>

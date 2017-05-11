@@ -26,6 +26,7 @@ public class BaseDataBean {
     public String imgsrc;
     public String url;
     public String url_3w;
+    public String postid;
     /**
      * imgsrc : http://cms-bucket.nosdn.127
      * .net/27a40661459d48a5949b27e6b1cbcff020161102080528.jpeg
@@ -90,6 +91,7 @@ public class BaseDataBean {
                 ", url_3w='" + url_3w + '\'' +
                 ", ads=" + ads +
                 ", imgextra=" + imgextra +
+                ", postid=" + postid +
                 '}';
     }
 }
